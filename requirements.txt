@@ -12,6 +12,7 @@ redis
 fastapi-limiter 
 cloudinary 
 fastapi-mail 
+fastapi-limiter
 sqlalchemy-utils 
 pytest 
 faker 

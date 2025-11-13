@@ -18,6 +18,13 @@ from app.conf.config import settings
 
 app = FastAPI()
 
+app.include_router(auth_router, prefix='/api')
+app.include_router(users_router, prefix='/api')
+app.include_router(post_router, prefix='/api')
+app.include_router(trans_router, prefix='/api')
+app.include_router(hashtag_router, prefix='/api')
+app.include_router(comment_router, prefix='/api')
+app.include_router(rating_router, prefix='/api')
 
 @app.get("/", name="Project root")
 def read_root():
@@ -28,7 +35,6 @@ def read_root():
     :return: A dictionary
     """
     return {"message": "Hello, Photoshare!"}
-
 
 @app.on_event("startup")
 async def startup():
@@ -44,7 +50,6 @@ async def startup():
         decode_responses=True
     )
     await FastAPILimiter.init(redis_cache)
-
 
 @app.get("/api/healthchecker")
 def healthchecker(db: Session = Depends(get_db)):
@@ -63,15 +68,6 @@ def healthchecker(db: Session = Depends(get_db)):
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=DB_CONNECT_ERROR)
-
-
-app.include_router(auth_router, prefix='/api')
-app.include_router(users_router, prefix='/api')
-app.include_router(post_router, prefix='/api')
-app.include_router(trans_router, prefix='/api')
-app.include_router(hashtag_router, prefix='/api')
-app.include_router(comment_router, prefix='/api')
-app.include_router(rating_router, prefix='/api')
 
 
 if __name__ == '__main__':

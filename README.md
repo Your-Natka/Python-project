@@ -11,6 +11,7 @@ source .venv/bin/activate   # для Linux / Mac
 .venv\Scripts\activate   # для Windows PowerShell
 
 Встановлюємо бібліотеки
+
 pip install -r requirements.txt
 
 # Запусти контейнер
