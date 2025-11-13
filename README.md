@@ -26,6 +26,26 @@ docker-compose logs -f web
 
 uvicorn app.main:app --reload
 
+### пере встановлюємо бібліотеки Poetry
+Очищаємо старий lock-файл:
+
+rm poetry.lock
+
+
+Створюємо новий lock-файл і встановлюємо залежності:
+
+poetry lock
+poetry install
+
+1️⃣ Показати всі записи
+SELECT * FROM users;
+
+2️⃣ Показати структуру таблиці
+\d users
+
+3️⃣ Пошук конкретного користувача
+SELECT * FROM users WHERE email='natka@example.com';
+
 
 <p align="center">
       <img src="https://i.pinimg.com/originals/0b/ba/ef/0bbaeface0390e5a675f97a812deeb0f.png" width="1010">

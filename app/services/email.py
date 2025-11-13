@@ -10,12 +10,12 @@ from app.conf.config import settings
 conf = ConnectionConfig(
     MAIL_USERNAME=settings.mail_username,
     MAIL_PASSWORD=settings.mail_password,
-    MAIL_FROM = settings.mail_from,
-    MAIL_PORT=settings.mail_port,
-    MAIL_SERVER=settings.mail_server,
+    MAIL_FROM=settings.mail_from,
     MAIL_FROM_NAME="PhotoShare Application",
-    MAIL_STARTTLS=False,
-    MAIL_SSL_TLS=True,
+    MAIL_SERVER=settings.mail_server,  # smtp.gmail.com
+    MAIL_PORT=587,
+    MAIL_STARTTLS=True,
+    MAIL_SSL_TLS=False,
     USE_CREDENTIALS=True,
     VALIDATE_CERTS=True,
     TEMPLATE_FOLDER=Path(__file__).parent / 'templates',
