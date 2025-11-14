@@ -3,22 +3,27 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    sqlalchemy_database_url: str 
-    secret_key: str 
-    algorithm: str 
-    access_token_expire_minutes: int = 1440
-    expire_minutes: int
-    postgres_db: str
+    # ---------------- Database ----------------
     sqlalchemy_database_url: str
-    
+    postgres_db: str
+
+    # ---------------- Auth ----------------
+    secret_key: str
+    algorithm: str
+    access_token_expire_minutes: int = 1440
+    expire_minutes: int = 60  
+
+    # ---------------- Email ----------------
     mail_username: str
     mail_password: str
-    mail_from: str 
-    mail_port: int 
+    mail_from: str
+    mail_port: int
     mail_server: str
-    
+
+    # ---------------- Redis ----------------
     redis_url: str
-    
+
+    # ---------------- Cloudinary ----------------
     cloudinary_name: str
     cloudinary_api_key: str
     cloudinary_api_secret: str
@@ -34,6 +39,9 @@ settings = Settings()
 
 
 def init_cloudinary():
+    """
+    Initialize Cloudinary configuration using credentials from settings.
+    """
     cloudinary.config(
         cloud_name=settings.cloudinary_name,
         api_key=settings.cloudinary_api_key,
