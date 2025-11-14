@@ -46,6 +46,22 @@ SELECT * FROM users;
 3️⃣ Пошук конкретного користувача
 SELECT * FROM users WHERE email='natka@example.com';
 
+Запусти контейнер
+docker-compose down --- для перезапуску видаляємо старі контейнера docker-compose up -d --build docker ps
+
+docker-compose logs -f web
+
+Коли попрацювали і зробили якісь зміни і нам треба зробити PR то ми виконуємо крок покрокові:
+
+git add .
+git commit -m '...(Тут буде назва вашого коментаря)'
+git push
+git push origin (назва вашої гілки)
+Переходимо на гілку девелопер git checkout developer
+git merge --no-ff (назва вашої гілки) -m '...(Короткий опис PR)'
+git push origin developer
+Виходимо віртуального середовища за допомогою команди: deactivate
+
 
 <p align="center">
       <img src="https://i.pinimg.com/originals/0b/ba/ef/0bbaeface0390e5a675f97a812deeb0f.png" width="1010">
