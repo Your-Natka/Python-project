@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel, EmailStr, Field, validator
+from pydantic import BaseModel, EmailStr, Field, field_validator
 from app.database.models import UserRoleEnum
 
 
@@ -11,33 +11,11 @@ class UserModel(BaseModel):
     username: str = Field(min_length=5, max_length=25)
     email: EmailStr
     password: str = Field(min_length=6, max_length=30)
-    avatar: Optional[str]
+    avatar: Optional[str] = None
 
 
 class UserUpdateModel(BaseModel):
     username: str = Field(min_length=5, max_length=25)
-
-
-class UserResponseModel(BaseModel):
-    id: int
-    username: str
-    email: str
-    is_active: Optional[bool]
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-
-
-class UserProfileModel(BaseModel):
-    username: str
-    email: EmailStr
-    avatar: Optional[str]
-    post_count: Optional[int]
-    comment_count: Optional[int]
-    rates_count: Optional[int]
-    is_active: Optional[bool]
-    created_at: datetime
 
 
 class UserDb(BaseModel):
@@ -48,13 +26,23 @@ class UserDb(BaseModel):
     role: UserRoleEnum
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class UserResponse(BaseModel):
     user: UserDb
     detail: str = "User successfully created"
+
+
+class UserProfileModel(BaseModel):
+    username: str
+    email: EmailStr
+    avatar: Optional[str]
+    post_count: Optional[int] = 0
+    comment_count: Optional[int] = 0
+    rates_count: Optional[int] = 0
+    is_active: Optional[bool] = True
+    created_at: datetime
 
 
 # ------------------- Auth / Token -------------------
@@ -72,8 +60,7 @@ class HashtagBase(BaseModel):
 
 
 class HashtagModel(HashtagBase):
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class HashtagResponse(HashtagBase):
@@ -81,8 +68,7 @@ class HashtagResponse(HashtagBase):
     user_id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # ------------------- Comments -------------------
@@ -99,16 +85,14 @@ class CommentModel(CommentBase):
     post_id: int
     update_status: bool = False
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class CommentUpdate(CommentModel):
     update_status: bool = True
-    updated_at: datetime = Field(default_factory=datetime.now)  # ✅ Pydantic 2.x сумісно
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # ------------------- Ratings -------------------
@@ -123,8 +107,7 @@ class RatingModel(RatingBase):
     post_id: int
     user_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # ------------------- Posts -------------------
@@ -137,7 +120,7 @@ class PostBase(BaseModel):
     descr: str = Field(max_length=450)
     hashtags: List[str] = []
 
-    @validator("hashtags")
+    @field_validator("hashtags")
     def validate_tags(cls, v):
         if len(v or []) > 5:
             raise ValueError("Too many hashtags. Maximum 5 tags allowed.")
@@ -151,7 +134,7 @@ class PostModel(PostBase):
 class PostUpdate(BaseModel):
     title: str = Field(max_length=45)
     descr: str = Field(max_length=450)
-    hashtags: List[str]
+    hashtags: List[str] = []
 
 
 class PostResponse(PostBase):
@@ -160,8 +143,7 @@ class PostResponse(PostBase):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # ------------------- Email / Roles -------------------
