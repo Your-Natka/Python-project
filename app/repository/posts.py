@@ -253,11 +253,3 @@ async def remove_post(post_id: int, user: User, db: Session) -> Post | None:
             db.commit()
     return post
 
-
-
-
-
-
-
-
-
