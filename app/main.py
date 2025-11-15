@@ -15,6 +15,7 @@ from app.routes.transform_post import router as trans_router
 from app.routes.hashtags import router as hashtag_router
 from app.routes.users import router as users_router
 from app.conf.config import settings
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -25,6 +26,7 @@ app.include_router(trans_router, prefix='/api')
 app.include_router(hashtag_router, prefix='/api')
 app.include_router(comment_router, prefix='/api')
 app.include_router(rating_router, prefix='/api')
+app.mount("/media", StaticFiles(directory="media"), name="media")
 
 @app.get("/", name="Project root")
 def read_root():
