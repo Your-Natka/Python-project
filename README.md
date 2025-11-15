@@ -59,15 +59,13 @@ SELECT * FROM users;
 3️⃣ Пошук конкретного користувача
 SELECT * FROM users WHERE email='natka@example.com';
 
-
-
 Коли попрацювали і зробили якісь зміни і нам треба зробити PR то ми виконуємо крок покрокові:
 
 git add .
 git commit -m '...(Тут буде назва вашого коментаря)'
 git push
 git push origin (назва вашої гілки)
-Переходимо на гілку девелопер git checkout developer
+Переходимо на гілку main git checkout main
 git merge --no-ff (назва вашої гілки) -m '...(Короткий опис PR)'
 git push origin developer
 Виходимо віртуального середовища за допомогою команди: deactivate
@@ -538,7 +536,6 @@ post_id — ID поста, для якого створюється QR-код
 POST /api/transformations/qr/10
 Authorization: Bearer <token>
 
-
 Приклад відповіді:
 
 {
@@ -547,12 +544,108 @@ Authorization: Bearer <token>
   "transformed_url": "https://res.cloudinary.com/.../rotate_90/photo.jpg"
 }
 
-
 Пояснення:
 
 qr_code_url — відносний шлях до згенерованого QR-коду на сервері
 
 transformed_url — URL трансформованого зображення
+
+✅ Як зробити, щоб картинка стала круглою або повернутою?
+Приклад -> КРУГЛА ФОТО
+
+Зміни PATCH body у Swagger на:
+
+{
+  "circle": {
+    "use_filter": true,
+    "height": 400,
+    "width": 400
+  },
+  "effect": {
+    "use_filter": false
+  },
+  "resize": {
+    "use_filter": false
+  },
+  "text": {
+    "use_filter": false
+  },
+  "rotate": {
+    "use_filter": false
+  }
+}
+
+
+Тоді backend повинен:
+
+Завантажити твоє фото з Cloudinary
+
+Обрізати до круга
+
+Завантажити назад на Cloudinary
+
+Записати у поле transform_url нову адресу
+
+І в респонсі буде:
+
+"transform_url": "https://res.cloudinary.com/.../transformed_image.png"
+
+🎯 Приклад -> ПОВЕРНУТИ ФОТО НА 45°
+{
+"circle": {
+    "use_filter": true,
+    "height": 400,
+    "width": 400
+  },
+  "effect": {
+    "use_filter": false,
+    "art_audrey": false,
+    "art_zorro": false,
+    "cartoonify": false,
+    "blur": false
+  },
+  "resize": {
+    "use_filter": true,
+    "crop": false,
+    "fill": true,
+    "height": 400,
+    "width": 400
+  },
+  "text": {
+    "use_filter": true,
+    "font_size": 50,
+    "text": "Hello"
+  },
+  "rotate": {
+    "use_filter": true,
+    "width": 400,
+    "degree": 45
+  }
+}
+
+🎯 Приклад -> ЗРОБИТИ РАМКУ
+
+Це залежить від твоїх ефектів, але напевно так:
+
+{
+  "effect": {
+    "use_filter": true,
+    "art_zorro": true
+  }
+}
+
+Відповідь API
+
+Якщо твій endpoint /api/transformations/qr/{post_id} повертає JSON, зазвичай там є поле з посиланням на QR-код, наприклад:
+
+{
+  "qr_code_url": "/media/qrcodes/1.png"
+}
+
+
+Це відносний URL на сервері.
+
+Повний URL: http://127.0.0.1:8000/media/qrcodes/1.png
 
 ### 9️⃣ Коментарі
 

@@ -1,13 +1,18 @@
 import base64
 import cloudinary
 import pyqrcode
+import os
+import base64
+import pyqrcode
 import io
-
+from fastapi import Request
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database.models import Post, User
 from app.conf.config import init_cloudinary
 from app.tramsform_schemas import TransformBodyModel
+from app.conf.messages import NOT_FOUND
 
 
 async def transform_metod(post_id: int, body: TransformBodyModel, user: User, db: Session) -> Post | None:
@@ -75,7 +80,7 @@ async def transform_metod(post_id: int, body: TransformBodyModel, user: User, db
         return post
 
 
-async def show_qr(post_id: int, user: User, db: Session) -> Post | None:
+async def show_qr(post_id: int, user: User, db: Session, request):
     """
     The show_qr function takes in a post_id and user object, and returns the QR code for that post.
         Args:
@@ -87,13 +92,23 @@ async def show_qr(post_id: int, user: User, db: Session) -> Post | None:
     :param db: Session: Access the database
     :return: A base64 encoded image of the qr code
     """
-    post= db.query(Post).filter(Post.user_id == user.id, Post.id == post_id).first()
-    if post:
-        if post.transform_url:   
-            img = pyqrcode.create(post.transform_url)
-            buffered = io.BytesIO()
-            img.png(buffered,scale=6)
-            encoded_img = base64.b64encode(buffered.getvalue()).decode("ascii")
-    
-            return encoded_img
-        
+    post = db.query(Post).filter(Post.user_id == user.id, Post.id == post_id).first()
+    if post and post.transform_url:
+        import os
+        import pyqrcode
+
+        # Створюємо директорію для QR-кодів, якщо її немає
+        qr_dir = "media/qrcodes"
+        os.makedirs(qr_dir, exist_ok=True)
+
+        # Генеруємо QR
+        img = pyqrcode.create(post.transform_url)
+        qr_path = f"{qr_dir}/{post.id}.png"
+        img.png(qr_path, scale=6)
+
+        # Повертаємо URL для доступу через Swagger / браузер
+        base_url = str(request.base_url).rstrip("/")
+        qr_url = f"{base_url}/{qr_path}"
+        return {"qr_url": qr_url}
+
+    return None
