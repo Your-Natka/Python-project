@@ -84,6 +84,8 @@ FastAPI | PostgreSQL | SQLAlchemy | JWT | Cloudinary | Docker | Docker Compose
 
 Технології
 
+Docker та Docker Compose
+
 Встановлення та запуск
 
 Структура проєкту
@@ -92,19 +94,17 @@ FastAPI | PostgreSQL | SQLAlchemy | JWT | Cloudinary | Docker | Docker Compose
 
 Робота зі світлинами
 
-Коментарі
+Transformations
 
-Профіль користувача
+Коментарі
 
 Ролі користувачів
 
 Рейтинг
 
-Пошук та фільтрація
+Hashtags
 
 Тести
-
-Docker та Docker Compose
 
 Деплой
 
@@ -215,140 +215,39 @@ CLOUDINARY_NAME=...
 CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
 
-### 🔧 3. Запуск через Docker Compose
+### 🔧  Запуск через Docker Compose
 docker-compose up --build
 
 
 API буде доступне на:
-👉 http://localhost:8080
+👉 http://localhost:8000
 
 Документація Swagger:
-👉 http://localhost:8080/docs
+👉 http://localhost:8000/docs
 
 ### Дерево проекту
-├── -H
 ├── Dockerfile
-├── ERROR
 ├── README.md
 ├── alembic
-│   ├── README
-│   ├── __pycache__
-│   │   └── env.cpython-311.pyc
-│   ├── env.py
-│   ├── script.py.mako
-│   └── versions
-├── alembic.ini
+│   └── ...
 ├── app
-│   ├── __init__.py
-│   ├── __pycache__
-│   │   ├── __init__.cpython-311.pyc
-│   │   ├── __init__.cpython-312.pyc
-│   │   ├── __init__.cpython-313.pyc
-│   │   ├── main.cpython-311.pyc
-│   │   ├── main.cpython-312.pyc
-│   │   ├── main.cpython-313.pyc
-│   │   ├── schemas.cpython-311.pyc
-│   │   ├── schemas.cpython-312.pyc
-│   │   ├── tramsform_schemas.cpython-311.pyc
-│   │   └── tramsform_schemas.cpython-312.pyc
-│   ├── conf
-│   │   ├── __pycache__
-│   │   ├── config.py
-│   │   └── messages.py
-│   ├── database
-│   │   ├── __init__.py
-│   │   ├── __pycache__
-│   │   ├── connect_db.py
-│   │   └── models.py
 │   ├── main.py
+│   ├── database
 │   ├── repository
-│   │   ├── __pycache__
-│   │   ├── comments.py
-│   │   ├── hashtags.py
-│   │   ├── posts.py
-│   │   ├── ratings.py
-│   │   ├── transform_post.py
-│   │   └── users.py
 │   ├── routes
-│   │   ├── __pycache__
-│   │   ├── auth.py
-│   │   ├── comments.py
-│   │   ├── hashtags.py
-│   │   ├── posts.py
-│   │   ├── ratings.py
-│   │   ├── transform_post.py
-│   │   └── users.py
-│   ├── schemas.py
 │   ├── services
-│   │   ├── __pycache__
-│   │   ├── auth.py
-│   │   ├── email.py
-│   │   ├── roles.py
-│   │   └── templates
-│   └── tramsform_schemas.py
+│   ├── schemas.py
+│   └── ...
 ├── docker-compose.yml
-├── docs
-│   ├── Makefile
-│   ├── build
-│   │   ├── doctrees
-│   │   └── html
-│   ├── make.bat
-│   └── source
-│       ├── conf.py
-│       └── index.rst
-├── example.env
-├── migrations
-│   ├── README
-│   ├── env.py
-│   ├── script.py.mako
-│   └── versions
-│       ├── 5997d1478345_increase_url_length.py
-│       ├── 680fb28a8181_init.py
-│       ├── 6e8308e59b8f_add_comments_and_blacklist.py
-│       └── 9467ecb82664_change_back_to_url.py
-├── poetry.lock
-├── pyproject.toml
-├── requirements.txt
-├── test.db
-└── tests
-    ├── __init__.py
-    ├── __pycache__
-    │   ├── __init__.cpython-311.pyc
-    │   └── conftest.cpython-311-pytest-8.4.2.pyc
-    ├── auth
-    │   ├── __pycache__
-    │   └── test_route_auth.py
-    ├── comments
-    │   ├── __pycache__
-    │   ├── test_repository_comments.py
-    │   └── test_route_comments.py
-    ├── conftest.py
-    ├── hashtags
-    │   ├── __pycache__
-    │   ├── test_repository_hashtags.py
-    │   └── test_route_hashtags.py
-    ├── posts
-    │   ├── __pycache__
-    │   ├── test_repository_posts.py
-    │   └── test_route_posts.py
-    ├── rating
-    │   ├── __pycache__
-    │   ├── test_repository_ratings.py
-    │   └── test_route_ratings.py
-    ├── transformations
-    │   ├── __pycache__
-    │   ├── test_repository_transform_post.py
-    │   └── test_route_transform_post.py
-    └── users
-        ├── __pycache__
-        ├── test_repository_users.py
-        └── test_route_users.py
+├── tests
+│   └── ...
+└── ...
 
 ### 6️⃣ Аутентифікація
 
 Опис та основні маршрути:
 
-🔹 {POST} /auth/signup
+🔹 {POST} api/auth/signup
 
 Опис:
 
@@ -373,7 +272,12 @@ Content-Type: application/json
   "created_at": "2025-01-01T12:00:00"
 }
 
-🔹 {POST} /auth/login
+Відповідь:
+{
+"message": "Your email is already confirmed"
+}
+
+🔹 {POST} api/auth/login
 
 Опис:
 
@@ -388,6 +292,7 @@ Content-Type: application/json
   "username": "natusia",
   "password": "StrongPassword123!"
 }
+
 Приклад відповіді:
 {
   "access_token": "eyJhbGci...",
@@ -395,7 +300,7 @@ Content-Type: application/json
   "token_type": "bearer"
 }
 
-🔹 {POST} /auth/logout — Вихід
+🔹 {POST} api/auth/logout — Вихід
 Опис:
 
 Access-token додається у чорний список до часу завершення його дії.
@@ -408,7 +313,7 @@ Authorization: Bearer <access_token>
   "message": "Successfully logged out"
 }
 
-🔹 {POST} /auth/refresh
+🔹 {POST} api/auth/refresh_token
 
 Як працюють ролі та залежності (Depends)
 Опис:
@@ -428,6 +333,24 @@ Content-Type: application/json
   "access_token": "new_access_token",
   "token_type": "bearer"
 }
+🔹 {GET} /api/auth/confirmed_email/{token} — Confirm Email
+
+Опис: Підтвердження email після реєстрації.
+
+Відповідь:
+{
+"message": "Email confirmed"
+}
+
+🔹 {POST} /api/auth/request_email — Request Email
+
+Опис: Повторне надсилання листа підтвердження.
+
+Приклад:
+{
+"email": "nataly@example.com"
+}
+
 
 ### Ролі та залежності (Depends)
 
@@ -438,139 +361,376 @@ user	             CRUD своїх фото, коментарі, рейтинг
 moderator	         видаляти коментарі і рейтинги
 admin	             CRUD усіх фото, бан користувачів
 
-### 7️⃣ Робота зі світлинами
+### 7️⃣ Posts
+
+Ця секція відповідає за CRUD операції зі світлинами користувачів.
 
 Опис та основні маршрути:
 
-🔹 {POST} /photos/ — завантаження фото
+🔹 {POST} api/posts/new — завантаження фото
 
 Опис:
 
-Завантажує зображення у Cloudinary та створює запис у БД.
-До 5 тегів. Немає — не обов'язково.
+Створює нову світлину та завантажує її на Cloudinary.
+Можна додати до 5 тегів.
 
-Тіло multipart/form-data:
-file: <image>
-description: "Моя перша світлина"
-tags: "nature,flowers"
+Body (multipart/form-data):
+
+file: зображення
+
+description: опис фото
+
+tags: кома-розділені теги (необов’язково)
+
+Приклад запиту:
+
+POST /api/posts/new/
+Authorization: Bearer <token>
+Content-Type: multipart/form-data
+
+file=@photo.jpg
+description="Моя перша світлина"
+tags="nature,flowers"
+
 
 Приклад відповіді:
+
 {
   "id": 10,
-  "url": "https://cloudinary.com/.../photo.jpg",
+  "url": "https://res.cloudinary.com/.../photo.jpg",
   "description": "Моя перша світлина",
+  "tags": ["nature", "flowers"],
+  "owner": "natusia",
+  "created_at": "2025-11-15T12:00:00"
+}
+
+🔹 GET /api/posts/my_posts — Read All User Posts
+
+Повертає список усіх світлин поточного користувача.
+
+Приклад відповіді:
+
+[
+  {
+    "id": 10,
+    "url": "...",
+    "description": "Моя перша світлина",
+    "tags": ["nature", "flowers"],
+    "created_at": "2025-11-15T12:00:00"
+  },
+  ...
+]
+
+🔹 {GET} /api/posts/all — Read All Posts
+
+Повертає всі світлини всіх користувачів.
+
+🔹 {GET} /api/posts/by_id/{post_id} — Read Post By Id
+
+Повертає конкретну світлину за її ID.
+
+🔹 {GET} /api/posts/by_title/{post_title} — Read Posts With Title
+
+Повертає список світлин, які містять у описі ключове слово.
+
+🔹 {GET} /api/posts/by_user_id/{user_id} — Read Posts By User Id
+
+Повертає всі світлини конкретного користувача за ID.
+
+🔹 {GET} /api/posts/by_username/{user_name} — Read Post With User Username
+
+Повертає всі світлини користувача за його username.
+
+🔹 {GET} /api/posts/with_hashtag/{hashtag_name} — Read Post With Hashtag
+
+Повертає список світлин з конкретним тегом.
+
+🔹 {GET} /api/posts/comments/all/{post_id} — Read Post Comments
+
+Повертає всі коментарі для конкретної світлини.
+
+🔹 {GET} /api/posts/by_keyword/{keyword} — Read Posts By Keyword
+
+Пошук фото за ключовим словом у описі.
+
+
+🔹 {DELETE} api/posts/{post_id}
+
+Видаляє світлину:
+Admin → може видаляти будь-які
+User → тільки свої
+
+🔹 {PUT} /api/posts/{post_id} — Update Post
+
+Оновлює опис або інші дані світлини.
+
+Приклад запиту:
+
+PUT /api/posts/10
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "description": "Оновлений опис фото"
+}
+
+
+Приклад відповіді:
+
+{
+  "id": 10,
+  "description": "Оновлений опис фото",
+  "url": "...",
   "tags": ["nature", "flowers"],
   "owner": "natusia"
 }
 
-🔹 {GET} /photos/{id} — отримання фото
+### 8️⃣ Transformations
 
-Приклад відповіді:
-{
-  "id": 10,
-  "url": "...",
-  "owner": "natusia",
-  "created_at": "2025-01-02T15:00:00"
-}
+Ця секція відповідає за обробку світлин (трансформації) та створення QR-кодів для них.
 
-🔹 {DELETE} /photos/{id}
+PATCH /api/transformations/{post_id} — Transform Method
 
-Admin → може видаляти будь-які
-User → тільки свої
+Виконує трансформацію конкретного фото на Cloudinary.
+Підтримуються різні операції (обертання, масштабування, обрізка тощо) за допомогою Cloudinary.
 
-🔹 {PUT} /photos/{id}
+Параметри:
 
-PUT /photos/10
-{
-  "description": "Оновлений опис"
-}
+post_id — ID поста, який потрібно трансформувати
 
-🔹 {POST} /photos/transform/{id}
+Body:
 
-Опис:
-
-Створення окремого посилання на трансформовану світлину.
-
-Приклад:
-POST /photos/transform/10
 {
   "transformation": "rotate_90"
 }
 
+
+Приклад запиту:
+
+PATCH /api/transformations/10
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "transformation": "rotate_90"
+}
+
+
 Приклад відповіді:
+
 {
-  "id": 100,
-  "photo_id": 10,
-  "url": "https://cloudinary.com/.../rotate_90/photo.jpg",
-  "qr_code_url": "/media/qrcodes/100.png"
+  "transformed_id": 100,
+  "post_id": 10,
+  "url": "https://res.cloudinary.com/.../rotate_90/photo.jpg",
+  "created_at": "2025-11-15T12:30:00"
+}
+
+POST /api/transformations/qr/{post_id} — Show QR
+
+Створює QR-код для трансформованої версії фото, щоб можна було швидко перейти за URL через мобільний пристрій.
+
+Параметри:
+
+post_id — ID поста, для якого створюється QR-код
+
+Приклад запиту:
+
+POST /api/transformations/qr/10
+Authorization: Bearer <token>
+
+
+Приклад відповіді:
+
+{
+  "post_id": 10,
+  "qr_code_url": "/media/qrcodes/100.png",
+  "transformed_url": "https://res.cloudinary.com/.../rotate_90/photo.jpg"
 }
 
 
-### 8️⃣ Коментарі
+Пояснення:
+
+qr_code_url — відносний шлях до згенерованого QR-коду на сервері
+
+transformed_url — URL трансформованого зображення
+
+### 9️⃣ Коментарі
+
+Система коментарів дозволяє користувачам залишати коментарі під світлинами, редагувати власні коментарі та переглядати коментарі інших користувачів.
+
+Правила:
+
+Коментар може створити будь-який активний користувач.
+
+Редагувати коментар може тільки автор.
+
+Видаляти коментарі можуть:
+
+автор,
+
+модератор,
+
+адміністратор.
+
+Для кожного коментаря зберігаються:
+
+created_at
+
+updated_at
 
 Опис та основні маршрути:
 
-🔹 {POST} /comments/{photo_id}
+🔹 POST /api/comments/new/{post_id} — Create Comment
 
-POST /comments/10
-{
-  "text": "Чудове фото!"
-}
+Створює новий коментар під постом.
 
-Відповідь:
-{
-  "id": 55,
-  "text": "Чудове фото!",
-  "owner": "natusia",
-  "created_at": "2025-01-03T10:00:00"
-}
+Параметри:
 
-🔹 {PUT} /comments/{comment_id}
+post_id — ID поста, до якого додається коментар
 
-User → може редагувати лише свій коментар
-
-PUT /comments/55
-{
-  "text": "Дуже гарне фото!"
-}
-
-🔹 {DELETE} /comments/{comment_id} (moder/admin)
-
-Moderator — може
-
-Admin — може
-
-User — ❌ не може
-
-9️⃣ Профіль
-
-Опис та основні маршрути:
-
-🔹 {GET} /users/profile/{username} — Публічний профіль
+Body:
 
 {
-  "username": "natusia",
-  "photos_count": 12,
-  "registered_at": "2025-01-01T12:00:00",
-  "bio": "Photographer"
+  "content": "Дуже гарне фото!"
 }
 
-🔹 {GET} /users/me — Особиста інформація
 
-Треба токен.
+Приклад запиту:
+
+POST /api/comments/new/42
+Authorization: Bearer <token>
+Content-Type: application/json
 
 {
-  "username": "natusia",
-  "email": "natusia@example.com",
-  "bio": "Photographer",
-  "is_active": true
+  "content": "Дуже гарне фото!"
 }
 
-🔹 {PUT} /users/me — Редагувати власний профіль
-PUT /users/me
+
+Приклад відповіді:
+
 {
-  "bio": "I love nature"
+  "comment_id": 15,
+  "post_id": 42,
+  "author_id": 7,
+  "content": "Дуже гарне фото!",
+  "created_at": "2025-01-11T09:12:33",
+  "updated_at": "2025-01-11T09:12:33"
 }
+
+🔹 PUT /api/comments/edit/{comment_id} — Edit Comment
+
+Редагує коментар. Доступно лише автору.
+
+Body:
+
+{
+  "content": "Виправив текст — все ще чудове фото!"
+}
+
+
+Приклад:
+
+PUT /api/comments/edit/15
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "content": "Виправив текст — все ще чудове фото!"
+}
+
+
+Приклад відповіді:
+
+{
+  "comment_id": 15,
+  "post_id": 42,
+  "author_id": 7,
+  "content": "Виправив текст — все ще чудове фото!",
+  "created_at": "2025-01-11T09:12:33",
+  "updated_at": "2025-01-11T09:15:01"
+}
+
+🔹 DELETE /api/comments/delete/{comment_id} — Delete Comment
+
+Видаляє коментар.
+
+Доступ:
+
+Автор
+
+Модератор
+
+Адміністратор
+
+Приклад:
+
+DELETE /api/comments/delete/15
+Authorization: Bearer <token>
+
+
+Приклад відповіді:
+
+{
+  "message": "Comment deleted successfully"
+}
+
+🔹 GET /api/comments/single/{comment_id} — Single Comment
+
+Повертає один коментар за його ID.
+
+GET /api/comments/single/15
+
+
+Приклад відповіді:
+
+{
+  "comment_id": 15,
+  "post_id": 42,
+  "author_id": 7,
+  "content": "Дуже гарне фото!",
+  "created_at": "2025-01-11T09:12:33",
+  "updated_at": "2025-01-11T09:12:33"
+}
+
+🔹 GET /api/comments/by_author/{user_id} — By User Comments
+
+Повертає всі коментарі, які створив певний користувач.
+
+GET /api/comments/by_author/7
+
+
+Приклад відповіді:
+
+[
+  {
+    "comment_id": 15,
+    "post_id": 42,
+    "content": "Дуже гарне фото!"
+  },
+  {
+    "comment_id": 18,
+    "post_id": 39,
+    "content": "Цікавий кадр!"
+  }
+]
+
+🔹 GET /api/comments/post_by_author/{user_id}/{post_id} — By User Post Comments
+
+Повертає всі коментарі, які певний користувач залишив під конкретною світлиною.
+
+GET /api/comments/post_by_author/7/42
+
+
+Приклад відповіді:
+
+[
+  {
+    "comment_id": 15,
+    "post_id": 42,
+    "author_id": 7,
+    "content": "Дуже гарне фото!"
+  }
+]
 
 ### 🔟 Ролі
 
@@ -607,6 +767,220 @@ POST /rating/10
 🔹 {DELETE} /rating/{id} (moder/admin)
 
 Moder/Admin → можуть видаляти рейтинг
+
+### Ratings
+
+Система рейтингів дозволяє користувачам оцінювати світлини від 1 до 5.
+Один користувач може оцінити одну світлину лише один раз.
+Не можна оцінювати власні світлини.
+Модератори та адміністратори можуть видаляти оцінки інших.
+
+POST /api/ratings/posts/{post_id}/{rate} — Створити тариф
+
+Створює оцінку для світлини.
+
+post_id — ID поста
+
+rate — оцінка (1–5)
+
+Правила:
+
+Не можна ставити оцінку своєму посту.
+
+Не можна ставити повторну оцінку.
+
+Неактивні користувачі не можуть ставити рейтинг.
+
+Приклад успішного запиту:
+
+POST /api/ratings/posts/42/5
+Authorization: Bearer <token>
+
+Приклад відповіді:
+
+{
+  "message": "Rating created successfully",
+  "rate": 5,
+  "post_id": 42
+}
+
+PUT /api/ratings/edit/{rate_id}/{new_rate} — Edit Rate
+
+Редагує існуючу оцінку користувача.
+
+rate_id — ID оцінки
+
+new_rate — нова оцінка (1–5)
+
+Приклад:
+
+PUT /api/ratings/edit/10/4
+Authorization: Bearer <token>
+
+
+Відповідь:
+
+{
+  "message": "Rating updated",
+  "old_rate": 5,
+  "new_rate": 4
+}
+
+DELETE /api/ratings/delete/{rate_id} — Delete Rate
+
+Видаляє оцінку.
+
+Дозволено:
+
+Автор оцінки
+
+Модератор
+
+Адмін
+
+Приклад:
+
+DELETE /api/ratings/delete/10
+Authorization: Bearer <token>
+
+
+Відповідь:
+
+{
+  "message": "Rating deleted"
+}
+
+GET /api/ratings/all — All Rates
+
+Повертає всі рейтинги в системі.
+
+Доступ:
+
+Адмін
+
+Модератор
+
+Приклад запиту:
+
+GET /api/ratings/all
+Authorization: Bearer <token>
+
+
+Приклад відповіді:
+
+[
+  { "rate_id": 1, "post_id": 10, "user_id": 5, "rate": 4 },
+  { "rate_id": 2, "post_id": 12, "user_id": 8, "rate": 5 }
+]
+
+GET /api/ratings/all_my — All My Rates
+
+Повертає всі оцінки, які поставив поточний користувач.
+
+GET /api/ratings/all_my
+Authorization: Bearer <token>
+
+
+Приклад:
+
+[
+  { "rate_id": 7, "post_id": 33, "rate": 5 },
+  { "rate_id": 8, "post_id": 40, "rate": 3 }
+]
+
+GET /api/ratings/user_post/{user_id}/{post_id} — User Rate Post
+
+Повертає рейтинг, який певний користувач поставив певній світлині.
+
+Використовується для пошуку чи перевірки.
+
+Приклад:
+
+GET /api/ratings/user_post/12/40
+
+Відповідь:
+
+{
+  "user_id": 12,
+  "post_id": 40,
+  "rate": 5
+}
+
+### Hashtags
+POST /api/hashtags/new/ — Create Tag
+
+Створює новий хештег.
+
+Приклад запиту:
+
+{
+  "name": "nature"
+}
+
+Приклад відповіді:
+{
+"id": 1,
+"name": "nature",
+"user_id": 5
+}
+
+GET /api/hashtags/my/ — Read My Tags
+
+Повертає всі хештеги, створені автентифікованим користувачем.
+
+Приклад відповіді:
+
+[
+{ "id": 1, "name": "nature" },
+{ "id": 2, "name": "trip" }
+]
+
+GET /api/hashtags/all/ — Read All Tags
+
+Повертає всі хештеги з бази.
+
+Приклад відповіді:
+
+[
+{ "id": 1, "name": "nature" },
+{ "id": 2, "name": "cats" }
+]
+
+GET /api/hashtags/by_id/{tag_id} — Read Tag By Id
+
+Повертає інформацію про конкретний тег.
+
+Приклад відповіді:
+{
+"id": 3,
+"name": "travel",
+"user_id": 2
+}
+
+PUT /api/hashtags/upd_tag/{tag_id} — Update Tag
+
+Оновлює назву хештега.
+
+Приклад запиту:
+{
+"name": "updated_tag"
+}
+
+Приклад відповіді:
+{
+"id": 3,
+"name": "updated_tag"
+}
+
+DELETE /api/hashtags/del/{tag_id} — Remove Tag
+
+Видаляє тег.
+
+Приклад відповіді:
+
+{
+"message": "Tag deleted"
+}
 
 ### 1️⃣2️⃣ Пошук
 
