@@ -38,7 +38,7 @@ async def edit_my_profile(file, new_username: Optional[str], user: User, db: Ses
     return me
 
 
-async def get_users(skip: int, limit: int, db: Session) -> List[User]:
+def get_users(skip: int, limit: int, db: Session) -> List[User]:
     return db.query(User).offset(skip).limit(limit).all()
 
 

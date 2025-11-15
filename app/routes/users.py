@@ -3,6 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 
+from typing import List
 from app.database.connect_db import get_db
 from app.repository import users as repository_users
 from app.database.models import User, UserRoleEnum
@@ -37,8 +38,8 @@ async def edit_my_profile(avatar: UploadFile = File(), new_username: str = Form(
 
 
 @router.get("/all", response_model=List[UserDb], dependencies=[Depends(allowed_get_all_users)])
-async def read_all_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    users = await repository_users.get_users(skip, limit, db)
+def read_all_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    users = repository_users.get_users(skip, limit, db)
     return users
 
 

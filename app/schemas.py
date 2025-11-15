@@ -12,6 +12,7 @@ class UserModel(BaseModel):
     email: EmailStr
     password: str = Field(min_length=6, max_length=30)
     avatar: Optional[str] = None
+    created_at: Optional[datetime]
 
 
 class UserUpdateModel(BaseModel):
@@ -79,11 +80,11 @@ class CommentBase(BaseModel):
 
 class CommentModel(CommentBase):
     id: int
-    created_at: datetime
-    updated_at: Optional[datetime]
+    text: str
     user_id: int
     post_id: int
-    update_status: bool = False
+    created_at: datetime
+    updated_at: Optional[datetime]
 
     model_config = {"from_attributes": True}
 
