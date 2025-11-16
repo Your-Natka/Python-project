@@ -1,9 +1,8 @@
 import enum
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, Table, Text, func, Enum
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import relationship
 from sqlalchemy_utils import aggregated
-
-Base = declarative_base()
+from app.database.connect_db import Base
 
 
 # ---------------- ENUMS ---------------- #
