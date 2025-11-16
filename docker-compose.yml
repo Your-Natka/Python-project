@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SQLALCHEMY_DATABASE_URL=postgresql+psycopg2://postgres:password@db:5432/photoshare
+      - SQLALCHEMY_DATABASE_URL=postgresql+psycopg2://postgres:password@localhost:5432/photoshare
       - REDIS_URL=redis://:yourpassword@redis:6379/0
       - CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
       - SECRET_KEY=supersecret
